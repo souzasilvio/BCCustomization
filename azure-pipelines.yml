@@ -1,0 +1,33 @@
+trigger:
+- main # Trigger the pipeline on changes to the 'main' branch
+
+pool:
+  vmImage: 'windows-latest' # Use the latest Windows virtual machine image
+
+variables:
+  ALBuildOutput: 'BuildOutput'
+  ALCompilerVersion: 'latest' # You can specify a version if required
+
+steps:
+# Step 1: Checkout the GitHub repository
+- task: Checkout@1
+  displayName: 'Checkout GitHub Repository'
+  inputs:
+    repository: 'https://github.com/souzasilvio/BCCustomization.git' 
+    persistCredentials: true
+
+# Step 2: Install AL Language extension
+- task: UseDotNet@2
+  displayName: 'Install AL Language Compiler'
+  inputs:
+    packageType: 'sdk'
+    version: $(ALCompilerVersion)
+
+# Step 3: Compile the AL project
+- script: |
+    mkdir $(ALBuildOutput)
+    al-compiler -projectPath . -output $(ALBuildOutput)
+  displayName: 'Compile AL Project'
+
+# Step 4: Publish or further actions (optional)
+# Add additional steps here if needed
