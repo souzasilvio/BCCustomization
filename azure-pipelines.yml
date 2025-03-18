@@ -9,13 +9,6 @@ variables:
   ALCompilerVersion: 'latest' # You can specify a version if required
 
 steps:
-# Step 1: Checkout the GitHub repository
-- task: Checkout@1
-  displayName: 'Checkout GitHub Repository'
-  inputs:
-    repository: 'https://github.com/souzasilvio/BCCustomization.git' 
-    persistCredentials: true
-
 # Step 2: Install AL Language extension
 - task: UseDotNet@2
   displayName: 'Install AL Language Compiler'
